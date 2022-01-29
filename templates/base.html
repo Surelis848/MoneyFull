@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="{{url_for('css', filename='main.css')}}" type="text/css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" type="text/css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoneyFull</title>
+</head>
+<body>
+  <nav>
+
+  </nav>
+  <div>
+    {% block content %} {% endblock%}
+  </div>
+  <footer>
+    <div class="row">
+      <p class="col-sm-12 col-md-4">
+        Made by Elena Eigelyte 2022
+      </p>
+      <div class="col-sm-12 col-md-8">
+        <p class='social-media'>
+          &#124 Connect and see more of my work on social media...
+          <a target='_blank' href='https://www.facebook.com/elena.eigelyte'><i class='fab fa-facebook'></i></a>
+          <a target='_blank' href='https://codepen.io/elena-eigelyte/'><i class='fab fa-codepen'></i></a>
+          <a target='_blank' href='https://www.linkedin.com/in/elenaeig/'><i class='fab fa-linkedin'></i></a>
+          <a target='_blank' href='https://github.com/Surelis848'><i class="fab fa-github"></i></a>
+        </p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
