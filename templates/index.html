@@ -1,3 +1,8 @@
 {% extends 'base.html' %} {% block content %}
 <p>Hello World!</p>
+    <div>
+    {% for c in Categories %}
+        <p>{{ c.title }}</p>
+    {% endfor %}
+    </div>
 {% endblock %}
