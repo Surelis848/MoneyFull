@@ -12,12 +12,12 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def get_landing_page():
-    return render_template('index.html', Categories=mongo.db.Categories.find())
+    return render_template('landing.html', Categories=mongo.db.Categories.find())
 
-@app.route('/add_test')
-def add_test():
-    mongo.db.Categories.insert_one({'title': "Rent"})
-    return jsonify(message="success")
+#@app.route('/add_test')
+#def add_test():
+#    mongo.db.Categories.insert_one({'title': "Rent"})
+#    return jsonify(message="success")
 
 
 # Main function for running the app

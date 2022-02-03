@@ -1,0 +1,53 @@
+/*-------------General-------------*/
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.container {
+    padding: 20px 50px;
+}
+
+body {
+    padding-bottom: 90px;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.text-prim {
+    color: sienna;
+}
+
+
+.background-primary {
+    background-color: burlywood;
+}
+
+/*-------------Nav and Footer-------------*/
+
+footer {
+    padding: 5px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 80px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.social-media a i {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    text-align: center;
+    color: sienna;
+    transition: background-color 0.35s ease-in-out;
+    -moz-transition: background-color 0.35s ease-in-out;
+    -webkit-transition: background-color 0.35s ease-in-out;
+    -o-transition: background-color 0.35s ease-in-out;
+}
+
+.social-media a i:hover {
+    color: white;
+}
