@@ -1,4 +1,8 @@
 <!--Should not extend the base.html. Instead add the header and footer with different Nav links and without logo link for the Tracker page-->
 
-<button name="Register" href="{{ url_for('get_register_page') }}">Register</button>
-<button name="Login" href="{{ url_for('get_login_page') }}">Login</button>
+<a href="{{ url_for('get_register_page') }}">
+    <button name="Register">Register</button>
+</a>
+<a href="{{ url_for('get_login_page') }}">
+    <button name="Login">Login</button>
+</a>
