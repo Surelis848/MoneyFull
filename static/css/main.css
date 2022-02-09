@@ -15,15 +15,20 @@ body {
 }
 
 .text-prim {
-    color: sienna;
+    color: white;
 }
 
 
 .background-primary {
-    background-color: burlywood;
+    background-color: #46494C;
 }
 
 /*-------------Nav and Footer-------------*/
+
+#logo {
+    color: #85C65D;
+    font-size: x-large;
+}
 
 footer {
     padding: 5px;
@@ -41,7 +46,7 @@ footer {
     width: 30px;
     border-radius: 50%;
     text-align: center;
-    color: sienna;
+    color: white;
     transition: background-color 0.35s ease-in-out;
     -moz-transition: background-color 0.35s ease-in-out;
     -webkit-transition: background-color 0.35s ease-in-out;
@@ -49,5 +54,19 @@ footer {
 }
 
 .social-media a i:hover {
-    color: white;
+    color: #8D99AE;
+}
+
+.test-red {
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    footer {
+        height: 40px;
+    }
+
+    body {
+        padding-bottom: 50px;
+    }
 }
