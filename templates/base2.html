@@ -1,11 +1,6 @@
 {% set navigation_bar = [
-    ('/tracker', 'Tracker', 'Tracker'),
-    ('/budget', 'Budget', 'Budget'),
-    ('/trends', 'Trends', 'Trends'),
-    ('/targets', 'Targets', 'Targets'),
-    ('/settings', 'Settings', 'Settings'),
-    ('/help', 'Help', 'Help'),
-    ('/logout', 'Logout', 'Logout')
+    ('/register', 'Register', 'Register'),
+    ('/login', 'Login', 'Login')
 ] -%}
 
 {% set active_page = active_page -%}
@@ -33,7 +28,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark background-primary">
     <!--put in condition for the redirection to home only when logged in and to that persons tracker-->
-    <a class="navbar-brand" id="logo" href="{{ url_for('get_tracker_page') }}"><strong>MoneyFull</strong></a>
+    <a class="navbar-brand" id="logo" href="{{ url_for('get_landing_page') }}"><strong>MoneyFull</strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -45,6 +40,7 @@
     </li>
 {% endfor %}
 </ul>
+
         <!--<ul class="navbar-nav nav ml-auto">
             <li class="nav-item" id="Tracker">
                 <a class="nav-link" href="{{ url_for('get_tracker_page') }}">Tracker</a>

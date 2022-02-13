@@ -1,3 +1,12 @@
 {% extends 'base.html' %} {% set active_page = "Tracker" %}
 {% block content %}
+
+{% if message  %}
+    <div class="alert alert-secondary" role="alert">
+        <p>{{ message }}</p>
+    </div>
+{% endif %}
+
+    <p>Hello You have Logged in as {{ email }}</p>
+    <p>Test</p>
 {% endblock %}
