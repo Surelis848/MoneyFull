@@ -18,6 +18,10 @@ body {
     color: white;
 }
 
+.text-sec {
+    color: #46494C;
+}
+
 h1 {
     padding-bottom: 15px;
 }
@@ -44,6 +48,10 @@ h3 {
     border-style: solid;
     border-color: #8D99AE;
     border-width: thin;
+}
+
+.right_alight {
+    text-align: right;
 }
 
 /*-------------Nav and Footer-------------*/

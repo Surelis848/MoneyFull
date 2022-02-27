@@ -116,8 +116,8 @@ def get_tracker_page():
             categories = mongo.db.Categories_50_30_20.find()
         elif budgetingSystem == '70/20/10':
             categories = mongo.db.Categories_70_20_10.find()
-        spending = mongo.db.Tracker.find({"email": email}).sort('date', -1)
         tracker = mongo.db.Tracker
+        spending = tracker.find({"email": email}).sort('date', -1)
         date = request.form.get('date')
         if date != None:
             add_item = {
@@ -132,6 +132,19 @@ def get_tracker_page():
         return render_template('tracker.html', email=email, user=user, categories=categories, spending=spending)
     else:
         return redirect(url_for("login"))
+
+
+@app.route('/delete_purchase/<purchase_id>')
+def delete_purchase(purchase_id):
+    mongo.db.Tracker.delete_one({'_id': ObjectId(purchase_id)})
+    return redirect(url_for("get_tracker_page"))
+
+
+@app.route('/edit_purchase/<purchase_id>')
+def edit_purchase(purchase_id):
+    mongo.db.Tracker.delete_one({'_id': ObjectId(purchase_id)})
+    return redirect(url_for("get_tracker_page"))
+
 
 # @app.route('/insert_tracker', methods=['POST'])
 # def insert_tracker():
