@@ -1,12 +1,57 @@
 {% extends 'base.html' %} {% set active_page = "Tracker" %}
 {% block content %}
 
-{% if message  %}
-    <div class="alert alert-secondary" role="alert">
-        <p>{{ message }}</p>
-    </div>
-{% endif %}
+    <p>Hello, {{ user.name }}!</p>
 
-    <p>Hello You have Logged in as {{ email }}</p>
-    <p>Test</p>
+    <div class = container>
+        <h1>Tracker</h1>
+        <div class="frame">
+            <form action="" class="row" method="POST">
+                <h3 class="col-5 col-sm-4 col-md-3 col-lg-2 col-xxl-1"><a>Add Purchase</a></h3>
+                <h3 class="col-7 col-sm-8 col-md-9 col-lg-10 col-xxl-11"><a>/Add Additional Income</a></h3>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <div class="input-group date">
+                            <input type='date' name='date' class="form-control" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2 col-lg-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                            <input class="form-control currency" name='amount' id="purchaseAmount" type="number" placeholder="0" min="0" step="0.01" required/>
+                        </div>
+                    </div></div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <input class="form-control" name='description' id="description" placeholder="Description" type="text">
+                    </div></div>
+                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                    <div class="form-group">
+                        <select class="form-control" name='category' id="category" required>
+                            {% for c in categories %}
+                                <option value="{{c.title}}">{{c.title}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2 col-lg-2">
+                    <button class="btn btn-mantis" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+        <div class="frame">
+            <h3>Spending History</h3>
+            <p>----------</p>
+            {% for purchase in spending %}
+                <div class="row">
+                    <p class="col-6 col-sm-3 col-md-3 col-lg-2"><strong>{{ purchase.date }}</strong></p>
+                    <p class="col-6 col-sm-2 col-md-2 col-lg-2">{{ purchase.amount }}</p>
+                    <p class="col-6 col-sm-4 col-md-4 col-lg-5">{{ purchase.description }}</p>
+                    <p class="col-6 col-sm-3 col-md-3 col-lg-1">{{ purchase.category }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

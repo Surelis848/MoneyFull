@@ -18,9 +18,32 @@ body {
     color: white;
 }
 
+h1 {
+    padding-bottom: 15px;
+}
+
+h2 {
+    font-size: x-large;
+    text-decoration: underline;
+    font-weight: normal;
+    font-style: italic;
+}
+
+h3 {
+    font-size: medium;
+    font-weight: bold;
+}
+
 
 .background-primary {
     background-color: #46494C;
+}
+
+.frame {
+    padding: 10px;
+    border-style: solid;
+    border-color: #8D99AE;
+    border-width: thin;
 }
 
 /*-------------Nav and Footer-------------*/
@@ -70,3 +93,22 @@ footer {
         padding-bottom: 50px;
     }
 }
+
+/*-------------Register and Login-------------*/
+
+.btn-mantis {
+    background-color: #85C65D;
+    color: #46494C;
+}
+.btn-mantis:hover {
+    background-color: #4C7F2D;
+    color: white;
+}
+
+.currency {
+    text-align: right;
+    padding-right: 15px;
+}
+
+/*-------------Tracker Page-------------*/
+

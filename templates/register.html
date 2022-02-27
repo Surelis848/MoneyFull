@@ -9,29 +9,109 @@
         <p>{{ message }}</p>
     </div>
 {% endif %}
+    <div class = "container">
+        <h1>Register</h1>
+        <form action="" method="post">
 
-<form action="" method="post">
-    <div class="form-group">
-        <label for="Fullname">Full name</label>
-        <input name="fullname" class="form-control" id="inputFullName" aria-describedby="emailHelp" placeholder="Enter full name">
-        <small id="fullName" class="form-text text-muted">Please enter your full name(First name and Last name)</small>
-  </div>
-  <div class="form-group">
-        <label for="InputEmail">Email address</label>
-        <input name="email" class="form-control" id="InputEmail"  placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-  </div>
-  <div class="form-group">
-    <label for="InputPassword">Password</label>
-    <input type="password" name="password1" class="form-control" id="InputPassword" placeholder="Password">
-  </div>
+            <h2>Personal Details</h2>
 
-    <div class="form-group">
-    <label for="InputPassword2">Repeat Password</label>
-    <input type="password" name="password2" class="form-control" id="InputPassword2" placeholder="Repeat Password">
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input class="form-control" name="fullname" id="fullname" placeholder="Enter full name (e.g. 'John Smith')" pattern="^(\w\w+)\s(\w+)$" title="Must contain your full name - First Name and Last Name (e.g. John Smith)" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input class="form-control" type="email" name="email" id="email"  placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" type="password" name="password1" id="password" placeholder="Enter password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least 8 characters with at least 1 number, 1 upper and 1 lower letters" required>
+            </div>
 
+            <div class="form-group">
+                <label for="password2">Repeat Password</label>
+                <input class="form-control" type="password" name="password2" id="password2" placeholder="Repeat password" required>
+            </div>
+
+            <h2>Financial Details</h2>
+
+            <div class="form-group">
+                <label for="salaryPeriod">Salary Period</label>
+                <select class="form-control" name="salaryPeriod" id="salaryPeriod" required>
+                    <option value="monthly" selected>Monthly</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="bi-weekly">Bi-weekly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="salary">Pay</label>
+                <small>*After tax</small>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                    <input class="form-control currency" id="salary" name="salary" type="number" min="0" step="0.01" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="otherIncome">Other Consistent Income</label>
+                <small>*After tax</small>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                    <input class="form-control currency" id="otherIncome" name="otherIncome" type="number" value="0" min="0" step="0.01" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="savings">Savings</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                    <input class="form-control currency" id="savings" name="savings" type="number" value="0" min="0" step="0.01" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="investments">Investments</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                    <input class="form-control currency" id="investments" name="investments" type="number" value="0" min="0" step="0.01" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="target">Main Saving Target</label>
+                <select class="form-control" name="target" id="target">
+                    <option value="" selected></option>
+                    <option value="savings">Savings</option>
+                    <option value="debt repayment">Debt Repayment</option>
+                    <option value="mortgage">Mortgage</option>
+                    <option value="investing">Investing</option>
+                    <option value="emergency fund">Emergency Fund</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amountNeeded">Amount Needed for Target</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                    <input class="form-control currency" id="amountNeeded" name="amountNeeded" type="number" value="0" min="0" step="0.01"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="due">Date to Reach by</label>
+                <input class="form-control" type="date" name="due" id="due">
+            </div>
+
+            <h2>Budgeting System</h2>
+
+            <div class="form-group">
+                <label for="budgetingSystem">Choose a Budgeting System</label>
+                <select class="form-control" name="budgetingSystem" id="budgetingSystem">
+                    <option value="50/30/20" selected>50/30/20</option>
+                    <option value="70/20/10">70/20/10</option>
+                    <option value="moneyfullSystem">Moneyfull System</option>
+                </select>
+            </div>
+            <!-- Set defaults  and categories chosen with each system and let customize - create possibility to choose their own categories and percentages -->
+            <!-- Add all new fields to the app.py route -->
+            <button class="btn btn-mantis" type="submit">Register</button>
+        </form>
     </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
 {% endblock %}

@@ -15,10 +15,12 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def get_landing_page():
+    if "email" in session:
+        return redirect(url_for("get_tracker_page"))
     return render_template('landing.html')
 
 @app.route('/register', methods=['post', 'get'])
-def get_register_page(): #change - mix up for plagiarism
+def get_register_page():
     message = ''
     if "email" in session:
         return redirect(url_for("get_tracker_page"))
@@ -28,6 +30,15 @@ def get_register_page(): #change - mix up for plagiarism
 
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
+
+        salaryPeriod = request.form.get("salaryPeriod")
+        salary = request.form.get("salary")
+        otherIncome = request.form.get("otherIncome")
+        investments = request.form.get("investments")
+        target = request.form.get("target")
+        amountNeeded = request.form.get("amountNeeded")
+        due = request.form.get("due")
+        budgetingSystem = request.form.get("budgetingSystem")
 
         user_found = mongo.db.Users.find_one({"name": user})
         email_found = mongo.db.Users.find_one({"email": email})
@@ -42,7 +53,11 @@ def get_register_page(): #change - mix up for plagiarism
             return render_template('register.html', message=message)
         else:
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
-            user_input = {'name': user, 'email': email, 'password': hashed}
+            user_input = {'name': user, 'email': email, 'password': hashed,
+                          'salaryPeriod': salaryPeriod, 'salary': salary,
+                          'otherIncome': otherIncome, 'investments': investments,
+                          'target': target, 'amountNeeded': amountNeeded,
+                          'due': due, 'budgetingSystem': budgetingSystem}
             mongo.db.Users.insert_one(user_input)
 
             user_data = mongo.db.Users.find_one({"email": email})
@@ -50,8 +65,6 @@ def get_register_page(): #change - mix up for plagiarism
 
             return redirect(url_for('get_tracker_page'))
     return render_template('register.html')
-
-   # return render_template('register.html', Categories=mongo.db.Categories.find())
 
 @app.route('/login', methods=["POST", "GET"])
 def get_login_page():
@@ -90,13 +103,54 @@ def logout():
     else:
         return render_template('landing.html')
 
-@app.route('/tracker')
+
+@app.route('/tracker', methods=['post', 'get'])
 def get_tracker_page():
     if "email" in session:
         email = session["email"]
-        return render_template('tracker.html', email=email)
+        user = mongo.db.Users.find_one({"email": email})
+        budgetingSystem = user['budgetingSystem']
+        if budgetingSystem == 'moneyfullSystem':
+            categories = mongo.db.Categories_MoneyFull.find()
+        elif budgetingSystem == '50/30/20':
+            categories = mongo.db.Categories_50_30_20.find()
+        elif budgetingSystem == '70/20/10':
+            categories = mongo.db.Categories_70_20_10.find()
+        spending = mongo.db.Tracker.find({"email": email}).sort('date', -1)
+        tracker = mongo.db.Tracker
+        date = request.form.get('date')
+        if date != None:
+            add_item = {
+                'date': date,
+                # "{:%b, %d %Y}".format(datetime.now()),
+                'amount': request.form.get('amount'),
+                'description': request.form.get('description'),
+                'category': request.form.get('category'),
+                'email': email
+            }
+            tracker.insert_one(add_item)
+        return render_template('tracker.html', email=email, user=user, categories=categories, spending=spending)
     else:
         return redirect(url_for("login"))
+
+# @app.route('/insert_tracker', methods=['POST'])
+# def insert_tracker():
+#     if "email" in session:
+#         email = session["email"]
+#         user = mongo.db.Users.find_one({"email": email})
+#         tracker = mongo.db.Tracker
+#         add_item = {
+#             'date': request.form.get('date'),
+#         # "{:%b, %d %Y}".format(datetime.now()),
+#             'amount': request.form.get('amount'),
+#             'description': request.form.get('description'),
+#             'category': request.form.get('category'),
+#             'email': email
+#         }
+#         tracker.insert_one(add_item)
+#         return render_template('tracker.html', email=email, user=user)
+#     else:
+#         return redirect(url_for("login"))
 
 @app.route('/budget')
 def get_budget_page():
