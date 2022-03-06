@@ -140,10 +140,55 @@ def delete_purchase(purchase_id):
     return redirect(url_for("get_tracker_page"))
 
 
-@app.route('/edit_purchase/<purchase_id>')
-def edit_purchase(purchase_id):
-    mongo.db.Tracker.delete_one({'_id': ObjectId(purchase_id)})
-    return redirect(url_for("get_tracker_page"))
+@app.route('/edit_purchases')
+def edit_purchases():
+    if "email" in session:
+        email = session["email"]
+        user = mongo.db.Users.find_one({"email": email})
+        budgetingSystem = user['budgetingSystem']
+        if budgetingSystem == 'moneyfullSystem':
+            categories = mongo.db.Categories_MoneyFull.find()
+        elif budgetingSystem == '50/30/20':
+            categories = mongo.db.Categories_50_30_20.find()
+        elif budgetingSystem == '70/20/10':
+            categories = mongo.db.Categories_70_20_10.find()
+        categories_list = []
+        for c in categories:
+            categories_list.append(c['title'])
+        tracker = mongo.db.Tracker
+        spending = tracker.find({"email": email}).sort('date', -1)
+        date = request.form.get('date')
+        if date != None:
+            add_item = {
+                'date': date,
+                # "{:%b, %d %Y}".format(datetime.now()),
+                'amount': request.form.get('amount'),
+                'description': request.form.get('description'),
+                'category': request.form.get('category'),
+                'email': email
+            }
+            tracker.insert_one(add_item)
+        return render_template('tracker_edit.html', email=email, user=user, spending=spending, categories=categories_list)
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route('/update_purchases/<purchase_id>', methods=["POST"])
+def update_purchases(purchase_id):
+    if "email" in session:
+        email = session["email"]
+        spending = mongo.db.Tracker
+        spending.replace_one({'_id': ObjectId(purchase_id)},
+                        {
+                            'date': request.form.get('date'),
+                            'amount': request.form.get('amount'),
+                            'description': request.form.get('description'),
+                            'category': request.form.get('category'),
+                            'email': email
+                        })
+        return redirect(url_for('get_tracker_page'))
+    else:
+        return redirect(url_for('get_tracker_page'))
 
 
 # @app.route('/insert_tracker', methods=['POST'])

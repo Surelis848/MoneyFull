@@ -50,8 +50,12 @@ h3 {
     border-width: thin;
 }
 
-.right_alight {
+.right_align {
     text-align: right;
+}
+
+.padd {
+    padding-right: 30px;
 }
 
 /*-------------Nav and Footer-------------*/
