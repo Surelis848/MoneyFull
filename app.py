@@ -34,6 +34,7 @@ def get_register_page():
         salaryPeriod = request.form.get("salaryPeriod")
         salary = request.form.get("salary")
         otherIncome = request.form.get("otherIncome")
+        savings = request.form.get("savings")
         investments = request.form.get("investments")
         target = request.form.get("target")
         amountNeeded = request.form.get("amountNeeded")
@@ -55,7 +56,7 @@ def get_register_page():
             hashed = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
             user_input = {'name': user, 'email': email, 'password': hashed,
                           'salaryPeriod': salaryPeriod, 'salary': salary,
-                          'otherIncome': otherIncome, 'investments': investments,
+                          'otherIncome': otherIncome, 'savings': savings, 'investments': investments,
                           'target': target, 'amountNeeded': amountNeeded,
                           'due': due, 'budgetingSystem': budgetingSystem}
             mongo.db.Users.insert_one(user_input)
@@ -188,27 +189,8 @@ def update_purchases(purchase_id):
                         })
         return redirect(url_for('get_tracker_page'))
     else:
-        return redirect(url_for('get_tracker_page'))
+        return redirect(url_for('login'))
 
-
-# @app.route('/insert_tracker', methods=['POST'])
-# def insert_tracker():
-#     if "email" in session:
-#         email = session["email"]
-#         user = mongo.db.Users.find_one({"email": email})
-#         tracker = mongo.db.Tracker
-#         add_item = {
-#             'date': request.form.get('date'),
-#         # "{:%b, %d %Y}".format(datetime.now()),
-#             'amount': request.form.get('amount'),
-#             'description': request.form.get('description'),
-#             'category': request.form.get('category'),
-#             'email': email
-#         }
-#         tracker.insert_one(add_item)
-#         return render_template('tracker.html', email=email, user=user)
-#     else:
-#         return redirect(url_for("login"))
 
 @app.route('/budget')
 def get_budget_page():
@@ -218,6 +200,7 @@ def get_budget_page():
     else:
         return redirect(url_for("login"))
 
+
 @app.route('/trends')
 def get_trends_page():
     if "email" in session:
@@ -225,6 +208,7 @@ def get_trends_page():
         return render_template('trends.html', email=email)
     else:
         return redirect(url_for("login"))
+
 
 @app.route('/targets')
 def get_targets_page():
@@ -234,13 +218,137 @@ def get_targets_page():
     else:
         return redirect(url_for("login"))
 
+
 @app.route('/settings')
 def get_settings_page():
     if "email" in session:
         email = session["email"]
-        return render_template('settings.html', email=email)
+        user = mongo.db.Users.find_one({"email": email})
+        name = user['name']
+        password = user['password']
+        savings = user['savings']
+        salaryPeriod = user['salaryPeriod']
+        salary = user['salary']
+        otherIncome = user['otherIncome']
+        investments = user['investments']
+        target = user['target']
+        amountNeeded = user['amountNeeded']
+        due = user['due']
+        budgetingSystem = user['budgetingSystem']
+        salaryPeriods = mongo.db.salaryPeriods.find()
+        savingTargets = mongo.db.savingTargets.find()
+        Categories = mongo.db.Categories.find()
+        return render_template('settings.html', email=email,
+                                                user=user,
+                                                budgetingSystem=budgetingSystem,
+                                                name=name,
+                                                password=password,
+                                                savings=savings,
+                                                salaryPeriod=salaryPeriod,
+                                                salary=salary,
+                                                otherIncome=otherIncome,
+                                                investments=investments,
+                                                target=target,
+                                                amountNeeded=amountNeeded,
+                                                due=due,
+                                                salaryPeriods=salaryPeriods,
+                                                savingTargets=savingTargets,
+                                                Categories=Categories)
     else:
         return redirect(url_for("login"))
+
+
+@app.route('/update_user/', methods=["POST"])
+def update_user():
+    if "email" in session:
+        email = session["email"]
+        user = mongo.db.Users.find_one({"email": email})
+
+        name = user['name']
+        password = user['password']
+        savings = user['savings']
+        salaryPeriod = user['salaryPeriod']
+        salary = user['salary']
+        otherIncome = user['otherIncome']
+        investments = user['investments']
+        target = user['target']
+        amountNeeded = user['amountNeeded']
+        due = user['due']
+        budgetingSystem = user['budgetingSystem']
+        salaryPeriods = mongo.db.salaryPeriods.find()
+        savingTargets = mongo.db.savingTargets.find()
+        Categories = mongo.db.Categories.find()
+
+        currentPassword = user['password']
+        password1 = request.form.get("password1")
+        password2 = request.form.get("password2")
+        password3 = request.form.get("password3")
+
+        if password1 == '' and password2 == '' and password3 == '':
+            password = user['password']
+        elif not bcrypt.checkpw(password1.encode('utf-8'), currentPassword):
+            message = 'Wrong current password'
+            return render_template('settings.html', email=email,
+                                   user=user,
+                                   budgetingSystem=budgetingSystem,
+                                   name=name,
+                                   password=password,
+                                   savings=savings,
+                                   salaryPeriod=salaryPeriod,
+                                   salary=salary,
+                                   otherIncome=otherIncome,
+                                   investments=investments,
+                                   target=target,
+                                   amountNeeded=amountNeeded,
+                                   due=due,
+                                   salaryPeriods=salaryPeriods,
+                                   savingTargets=savingTargets,
+                                   Categories=Categories,
+                                   message=message)
+        elif password2 == '' and password3 == '':
+            password = user['password']
+        elif password2 != password3:
+            message = 'Passwords should match!'
+            return render_template('settings.html', email=email,
+                                   user=user,
+                                   budgetingSystem=budgetingSystem,
+                                   name=name,
+                                   password=password,
+                                   savings=savings,
+                                   salaryPeriod=salaryPeriod,
+                                   salary=salary,
+                                   otherIncome=otherIncome,
+                                   investments=investments,
+                                   target=target,
+                                   amountNeeded=amountNeeded,
+                                   due=due,
+                                   salaryPeriods=salaryPeriods,
+                                   savingTargets=savingTargets,
+                                   Categories=Categories,
+                                   message=message)
+        else:
+            password = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
+
+        user_id = user["_id"]
+        mongo.db.Users.replace_one({'_id': user_id},
+                        {
+                            'name': user['name'],
+                            'email': email,
+                            'password': password,
+                            'salaryPeriod': request.form.get('salaryPeriod'),
+                            'salary': request.form.get('salary'),
+                            'otherIncome': request.form.get('otherIncome'),
+                            'savings': request.form.get('savings'),
+                            'investments': request.form.get('investments'),
+                            'target': request.form.get('target'),
+                            'amountNeeded': request.form.get('amountNeeded'),
+                            'due': request.form.get('due'),
+                            'budgetingSystem': request.form.get('budgetingSystem')
+                        })
+        return redirect(url_for('get_settings_page'))
+    else:
+        return redirect(url_for('login'))
+
 
 @app.route('/help')
 def get_help_page():
@@ -249,6 +357,7 @@ def get_help_page():
         return render_template('help.html', email=email)
     else:
         return redirect(url_for("login"))
+
 
 @app.route('/error')
 def get_error_page():

@@ -10,9 +10,6 @@
             </div>
             <p>----------</p>
             {% for purchase in spending %}
-
-
-
                 <form action="{{ url_for('update_purchases', purchase_id=purchase._id) }}" method="POST" class="row">
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                         <div class="form-group">
@@ -57,10 +54,7 @@
                         <button class="btn btn-mantis" type="submit">Save</button>
                     </div>
                 </form>
-
-
-
-            {% endfor %}
+          {% endfor %}
 
         </div>
     </div>
