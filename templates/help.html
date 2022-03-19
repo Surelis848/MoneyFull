@@ -1,3 +1,55 @@
 {% extends 'base.html' %} {% set active_page = "Help" %}
 {% block content %}
+
+    <div class = "container">
+
+        <h1 class="col-8">Help</h1>
+
+        <div class="frame">
+            <h2>Contact Support</h2>
+            <p>*Enter your message and email to reach out to below</p>
+            <form action="mailto: D17126006@mytudublin.ie" class="row" method="POST" enctype=”multipart/form-data” name=”EmailFormMoneyFull”>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input class="form-control" type="email" name="email" id="email"  placeholder="Enter email" value="{{ email }}" required>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <label for="email">Message</label>
+                        <textarea class="form-control" name='message' id="message" placeholder="Your message goes here..." type="text" rows=”6″ cols=”20″></textarea>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-2 col-md-2 col-lg-1 right_align">
+                    <button class="btn btn-mantis" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+        <div class="frame">
+            <h2>Financial Resources</h2>
+            <h3>Saving tips:</h3>
+            <ul>
+                <li><a href="https://www.vacu.org/learn/financial-management/saving-and-investing/10-tips-for-saving-money">10 Tips For Saving Money</a></li>
+                <li><a href="https://n26.com/en-eu/blog/how-to-save-money-fast">How to Save Money Fast</a></li>
+                <li><a href="https://www.ramseysolutions.com/budgeting/the-secret-to-saving-money">The Secret To Saving Money</a></li>
+                <li><a href="https://www.goodhousekeeping.com/uk/consumer-advice/money/a32224339/money-saving-tips/">Money Saving Tips</a></li>
+            </ul>
+            <h3>Articles about budgeting:</h3>
+            <ul>
+                <li><a href="https://www.nerdwallet.com/article/finance/how-to-choose-the-right-budget-system#:~:text=Budgeting%20systems%20are%20designed%20to,these%20recommendations%20as%20a%20guide.">How to choose the right Budget System</a></li>
+                <li><a href="https://kalynbrooke.com/your-money/budgeting-systems/">Best Budgeting Systems to Try</a></li>
+                <li><a href="https://www.nerdwallet.com/article/finance/how-to-budget">How to Budget Money 101</a></li>
+                <li><a href="https://www.thebalance.com/how-to-make-a-budget-1289587">How to Make a Personal Budget</a></li>
+            </ul>
+            <h3>Articles about tracking your expenses:</h3>
+            <ul>
+                <li><a href="https://bethebudget.com/reasons-to-track-your-expenses/">10 Reasons Why you should track your expenses</a></li>
+                <li><a href="https://www.kindafrugal.com/benefits-of-tracking-your-expenses/">Benefits of Tracking Your Expenses</a></li>
+                <li><a href="https://www.ramseysolutions.com/budgeting/how-to-track-expenses">How To Track Your Expenses</a></li>
+                <li><a href="https://www.icicidirect.com/investonomics/find-your-mojo/articles/surprising-benefits-of-tracking-your-expenses#:~:text=The%20main%20reason%20you%20should,habits%20like%20saving%20and%20investing.">Do You Track Your Spending?</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+
 {% endblock %}

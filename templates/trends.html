@@ -1,3 +1,71 @@
 {% extends 'base.html' %} {% set active_page = "Trends" %}
 {% block content %}
+
+    <div class = "container">
+        <div class="row">
+            <h1 class="col-8">Trends</h1>
+            <div class="col-4 right_align">
+                <a href="javascript:dc.filterAll(); dc.renderAll()"><button class="btn btn-mantis">Reset All<i class="text-sec"></i></button></a>
+            </div>
+        </div>
+    </div>
+
+    {% if not tracker %}
+
+    <div class="alert alert-secondary" role="alert">
+        <p>{{ message }}</p>
+    </div>
+
+    {% else %}
+
+    <div class = "container">
+        <div class='row'>
+            <div class="col-12 col-md-6">
+                <div class="card border-secondary">
+                    <h2 class="card-header" id='category'>Total entries</h2>
+                    <div id='totalEntries' class='font-large chart'></div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="card border-secondary">
+                    <h2 class="card-header" id='category'>Total amount spent(€)</h2>
+                    <div id='totalAmount' class='font-large chart'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "container">
+        <div class='row'>
+            <div class="col-12">
+                <div class="card border-secondary">
+                    <h2 class="card-header" id='category'>Amount spent through time</h2>
+{#            <div id="currentMonth"></div>#}
+                    <div id='amount_date_chart' class='chart'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "container">
+        <div class='row'>
+            <div class="col-12">
+                <div class="card border-secondary">
+                    <h2 class="card-header" id='category'>Amount spent in different categories</h2>
+                    <div id='category_amount_chart' class='chart'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "container">
+        <div class='row'>
+            <div class="col-12">
+                <div class="card border-secondary">
+                    <h2 class="card-header" id='category'>Category use frequency</h2>
+                    <div id='category_chart' class='chart'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
 {% endblock %}

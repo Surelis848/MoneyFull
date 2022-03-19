@@ -122,5 +122,99 @@ footer {
     padding-right: 15px;
 }
 
-/*-------------Tracker Page-------------*/
+/*-------------Budget Page-------------*/
 
+.progress {
+    width: 90%;
+    margin: auto;
+    font-size: small;
+    height: 25px;
+    position: relative;
+}
+
+.progress-bar {
+    height: 25px;
+}
+
+.progress-type {
+    position: absolute;
+    left: 0px;
+    font-weight: 600;
+    padding: 3px 30px 2px 10px;
+    color: #fafafa;
+    background-color: rgba(25, 25, 25, 0.2);
+}
+
+.progress-percentage {
+    position: absolute;
+    right: 0px;
+    font-weight: 600;
+    padding: 3px 10px 2px 30px;
+}
+
+/*-------------Trends Page-------------*/
+
+.font-large {
+    font-size: xxx-large;
+    font-weight: bold;
+}
+
+.chart {
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 30px;
+}
+
+.dc-chart g.row text {
+    fill: #fff;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.dc-chart .axis text {
+    font-size: 22px;
+}
+
+#amount_date_chart {
+    font-size: 18px;
+}
+
+/*-------------Landing Page-------------*/
+
+.jumbotron {
+    background-color: transparent;
+    color: #FCF7F8;
+}
+
+.page-heading {
+    font-weight: 700;
+    font-size: 80px;
+}
+
+.page-subheading {
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+}
+
+.background-image {
+    height: 100vh;
+    background: url(static/images/background.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+}
+
+.opaque-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}

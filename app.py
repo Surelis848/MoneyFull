@@ -1,7 +1,11 @@
+from decimal import Decimal
+from datetime import datetime
 from bson.objectid import ObjectId
 from flask import Flask, render_template, request, url_for, redirect, session
 from flask_pymongo import PyMongo
 import bcrypt
+import json
+from bson import json_util
 
 app = Flask(__name__)
 app.secret_key = "testing" #change
@@ -31,6 +35,7 @@ def get_register_page():
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
 
+        currentDate = datetime.now().strftime("%Y-%m-%d")
         salaryPeriod = request.form.get("salaryPeriod")
         salary = request.form.get("salary")
         otherIncome = request.form.get("otherIncome")
@@ -57,8 +62,8 @@ def get_register_page():
             user_input = {'name': user, 'email': email, 'password': hashed,
                           'salaryPeriod': salaryPeriod, 'salary': salary,
                           'otherIncome': otherIncome, 'savings': savings, 'investments': investments,
-                          'target': target, 'amountNeeded': amountNeeded,
-                          'due': due, 'budgetingSystem': budgetingSystem}
+                          'target': target, 'amountNeeded': amountNeeded, 'targetProgress': '0',
+                          'due': due, 'budgetingSystem': budgetingSystem, 'enteredDate': currentDate}
             mongo.db.Users.insert_one(user_input)
 
             user_data = mongo.db.Users.find_one({"email": email})
@@ -123,7 +128,6 @@ def get_tracker_page():
         if date != None:
             add_item = {
                 'date': date,
-                # "{:%b, %d %Y}".format(datetime.now()),
                 'amount': request.form.get('amount'),
                 'description': request.form.get('description'),
                 'category': request.form.get('category'),
@@ -132,7 +136,7 @@ def get_tracker_page():
             tracker.insert_one(add_item)
         return render_template('tracker.html', email=email, user=user, categories=categories, spending=spending)
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("get_login_page"))
 
 
 @app.route('/delete_purchase/<purchase_id>')
@@ -162,7 +166,6 @@ def edit_purchases():
         if date != None:
             add_item = {
                 'date': date,
-                # "{:%b, %d %Y}".format(datetime.now()),
                 'amount': request.form.get('amount'),
                 'description': request.form.get('description'),
                 'category': request.form.get('category'),
@@ -171,7 +174,7 @@ def edit_purchases():
             tracker.insert_one(add_item)
         return render_template('tracker_edit.html', email=email, user=user, spending=spending, categories=categories_list)
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("get_login_page"))
 
 
 @app.route('/update_purchases/<purchase_id>', methods=["POST"])
@@ -189,34 +192,169 @@ def update_purchases(purchase_id):
                         })
         return redirect(url_for('get_tracker_page'))
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('get_login_page'))
 
 
 @app.route('/budget')
 def get_budget_page():
     if "email" in session:
         email = session["email"]
-        return render_template('budget.html')
+        user = mongo.db.Users.find_one({"email": email})
+        salary = int(user['salary'])
+        salaryf = f'{(salary):,}'
+        current_month = int(datetime.now().strftime('%m'))
+        budgetingSystem = user['budgetingSystem']
+        if budgetingSystem == 'moneyfullSystem':
+            categories = mongo.db.Categories_MoneyFull.find()
+        elif budgetingSystem == '50/30/20':
+            categories = mongo.db.Categories_50_30_20.find()
+        elif budgetingSystem == '70/20/10':
+            categories = mongo.db.Categories_70_20_10.find()
+        categories_list = []
+        for c in categories:
+            category = {'title': c['title'], 'percentage': int(c['percentage']), 'catsalary': salary*int(c['percentage'])/100}
+            categories_list.append(category)
+        tracker = mongo.db.Tracker.find({"email": email})
+        spending_list = []
+        for entry in tracker:
+            date = entry["date"]
+            datem = datetime.strptime(date, "%Y-%m-%d")
+            month = int(datem.month)
+            spend = {'date': month, 'category': entry['category'], 'amount': entry['amount']}
+            spending_list.append(spend)
+        categoryShare = 0
+        categoryPercentage = 0
+        return render_template('budget.html', email=email,
+                                            user=user,
+                                            categories_list=categories_list,
+                                            budgetingSystem=budgetingSystem,
+                                            salary=salary,
+                                            spending=spending_list,
+                                            categoryShare=categoryShare,
+                                            categoryPercentage=categoryPercentage,
+                                            currentMonth=current_month,
+                                            salaryf=salaryf)
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("get_login_page"))
+
+
+@app.route('/edit_categories')
+def edit_categories():
+    if "email" in session:
+        email = session["email"]
+        user = mongo.db.Users.find_one({"email": email})
+        budgetingSystem = user['budgetingSystem']
+        if budgetingSystem == 'moneyfullSystem':
+            categories = mongo.db.Categories_MoneyFull.find()
+        elif budgetingSystem == '50/30/20':
+            categories = mongo.db.Categories_50_30_20.find()
+        elif budgetingSystem == '70/20/10':
+            categories = mongo.db.Categories_70_20_10.find()
+        return render_template('budget_edit.html', email=email, user=user, categories=categories)
+    else:
+        return redirect(url_for("get_login_page"))
 
 
 @app.route('/trends')
 def get_trends_page():
     if "email" in session:
         email = session["email"]
-        return render_template('trends.html', email=email)
+        tracker = mongo.db.Tracker.find_one({"email": email})
+        message = "You currently have no spending tracked. Please add your purchases in the 'Tracker' tab"
+        return render_template('trends.html', email=email, tracker=tracker, message=message)
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("get_login_page"))
 
 
-@app.route('/targets')
+@app.route('/moneyfull/Tracker')
+def get_moneyfull_Tracker():
+    email = session["email"]
+    tracker = mongo.db.Tracker.find({"email": email})
+    json_spending = []
+    for spend in tracker:
+        json_spending.append(spend)
+    json_spending = json.dumps(json_spending, default=json_util.default)
+    return json_spending
+
+
+@app.route('/targets', methods=["POST", "GET"])
 def get_targets_page():
     if "email" in session:
         email = session["email"]
-        return render_template('targets.html', email=email)
+        user = mongo.db.Users
+        particularUser = user.find_one({"email": email})
+        objectID = particularUser["_id"]
+        target = particularUser["target"]
+        targetProgress = int(particularUser["targetProgress"])
+        startedDate = datetime.strptime(particularUser["enteredDate"], "%Y-%m-%d")
+        startedDateNoTime = startedDate.date()
+        amountNeeded = f'{int(particularUser["amountNeeded"]):,}'
+        due = datetime.strptime(particularUser["due"], "%Y-%m-%d")
+        dueNoTime = due.date()
+        currentDate = datetime.now().strftime("%Y-%m-%d")
+        currentDated = datetime.strptime(currentDate, "%Y-%m-%d")
+        difference = due - currentDated
+        daysLeft = difference.days
+        monthsLeft = (due.year - currentDated.year) * 12 + (due.month - currentDated.month)
+        monthsFromBegining = (due.year - startedDate.year) * 12 + (due.month - startedDate.month)
+        monthsPassed = monthsFromBegining - monthsLeft
+        monthlyAmountNeeded = int(particularUser["amountNeeded"]) / int(monthsFromBegining)
+        amountProgress = int(particularUser["amountNeeded"]) * targetProgress / 100
+        amountProgressF = f'{int(amountProgress):,}'
+
+        addProgress = request.form.get('addProgress')
+        if addProgress != None:
+            addProgress = request.form.get('addProgress')
+            newProgress = (amountProgress + float(addProgress)) * 100 / int(particularUser["amountNeeded"])
+
+            user.update_one({'_id': objectID}, {"$set": {'targetProgress': newProgress}})
+
+        if int(amountProgress) >= int(particularUser["amountNeeded"]):
+            status = "Target Reached"
+        elif amountProgress > monthsPassed * monthlyAmountNeeded:
+            status = "Ahead"
+        elif amountProgress == monthsPassed * monthlyAmountNeeded:
+            status = "On Target"
+        elif amountProgress < monthsPassed * monthlyAmountNeeded:
+            status = "Behind"
+
+        return render_template('targets.html', email=email, target=target, amountNeeded=amountNeeded,
+                               due=dueNoTime, daysLeft=daysLeft, monthsLeft=monthsLeft, monthlyAmountNeeded=monthlyAmountNeeded,
+                               targetProgress=targetProgress, startedDate=startedDateNoTime, status=status, amountProgress=amountProgressF)
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("get_login_page"))
+
+
+@app.route('/update_goal_date/', methods=["POST"])
+def update_goal_date():
+    if "email" in session:
+        email = session["email"]
+        user = mongo.db.Users
+        particularUser = user.find_one({"email": email})
+        objectID = particularUser["_id"]
+
+        currentDate = datetime.now().strftime("%Y-%m-%d")
+
+        user.update_one({'_id': objectID}, {"$set": {'enteredDate': currentDate}})
+
+        return redirect(url_for('get_targets_page'))
+    else:
+        return redirect(url_for('get_login_page'))
+
+
+@app.route('/update_goal_progress/', methods=["POST"])
+def update_goal_progress():
+    if "email" in session:
+        email = session["email"]
+        user = mongo.db.Users
+        particularUser = user.find_one({"email": email})
+        objectID = particularUser["_id"]
+
+        user.update_one({'_id': objectID}, {"$set": {'targetProgress': '0'}})
+
+        return redirect(url_for('get_targets_page'))
+    else:
+        return redirect(url_for('get_login_page'))
 
 
 @app.route('/settings')
@@ -232,8 +370,10 @@ def get_settings_page():
         otherIncome = user['otherIncome']
         investments = user['investments']
         target = user['target']
+        targetProgress = user['targetProgress']
         amountNeeded = user['amountNeeded']
         due = user['due']
+        enteredDate = user["enteredDate"]
         budgetingSystem = user['budgetingSystem']
         salaryPeriods = mongo.db.salaryPeriods.find()
         savingTargets = mongo.db.savingTargets.find()
@@ -249,13 +389,15 @@ def get_settings_page():
                                                 otherIncome=otherIncome,
                                                 investments=investments,
                                                 target=target,
+                                                targetProgress=targetProgress,
                                                 amountNeeded=amountNeeded,
                                                 due=due,
+                                                enteredDate=enteredDate,
                                                 salaryPeriods=salaryPeriods,
                                                 savingTargets=savingTargets,
                                                 Categories=Categories)
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("get_login_page"))
 
 
 @app.route('/update_user/', methods=["POST"])
@@ -272,8 +414,10 @@ def update_user():
         otherIncome = user['otherIncome']
         investments = user['investments']
         target = user['target']
+        targetProgress = user['targetProgress']
         amountNeeded = user['amountNeeded']
         due = user['due']
+        enteredDate = user["enteredDate"]
         budgetingSystem = user['budgetingSystem']
         salaryPeriods = mongo.db.salaryPeriods.find()
         savingTargets = mongo.db.savingTargets.find()
@@ -299,8 +443,10 @@ def update_user():
                                    otherIncome=otherIncome,
                                    investments=investments,
                                    target=target,
+                                   targetProgress=targetProgress,
                                    amountNeeded=amountNeeded,
                                    due=due,
+                                   enteredDate=enteredDate,
                                    salaryPeriods=salaryPeriods,
                                    savingTargets=savingTargets,
                                    Categories=Categories,
@@ -320,8 +466,10 @@ def update_user():
                                    otherIncome=otherIncome,
                                    investments=investments,
                                    target=target,
+                                   targetProgress=targetProgress,
                                    amountNeeded=amountNeeded,
                                    due=due,
+                                   enteredDate=enteredDate,
                                    salaryPeriods=salaryPeriods,
                                    savingTargets=savingTargets,
                                    Categories=Categories,
@@ -341,13 +489,15 @@ def update_user():
                             'savings': request.form.get('savings'),
                             'investments': request.form.get('investments'),
                             'target': request.form.get('target'),
+                            'targetProgress': targetProgress,
                             'amountNeeded': request.form.get('amountNeeded'),
                             'due': request.form.get('due'),
+                            'enteredDate': enteredDate,
                             'budgetingSystem': request.form.get('budgetingSystem')
                         })
         return redirect(url_for('get_settings_page'))
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('get_login_page'))
 
 
 @app.route('/help')
@@ -356,7 +506,7 @@ def get_help_page():
         email = session["email"]
         return render_template('help.html', email=email)
     else:
-        return redirect(url_for("login"))
+        return redirect(url_for("get_login_page"))
 
 
 @app.route('/error')

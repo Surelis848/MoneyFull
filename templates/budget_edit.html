@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% set active_page = "Budget" %}
+{% block content %}
+
+     <div class = container>
+        <h1>Budget</h1>
+        <div class="frame">
+            <h2>Budgeting System: {{ user.budgetingSystem }}</h2>
+            <h3>Current categories and percentage:</h3>
+            <div class="right_align">
+                <a href="{{url_for('get_budget_page')}}" class="col-12"><button class="btn btn-mantis">Exit Edit Mode <i class="fas fa-pencil-alt text-sec"></i></button></a>
+            </div>
+            {% for c in categories %}
+                <div class="row">
+                    <p class="col-6 right_align">{{ c.title }}</p>
+                    <p class="col-6">{{ c.percentage }}%</p>
+                </div>
+            {% endfor %}
+        </div>
+     </div>
+
+{% endblock %}

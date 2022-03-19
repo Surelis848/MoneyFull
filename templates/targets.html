@@ -1,3 +1,54 @@
 {% extends 'base.html' %} {% set active_page = "Targets" %}
 {% block content %}
+
+    <div class = "container">
+
+        <h1 class="col-8">Targets</h1>
+
+        <div class="frame">
+            <p><strong>Your current goal:</strong> {{ target }}</p>
+            <p><strong>Amount needed:</strong> {{ amountNeeded }}</p>
+            <p><strong>Amount collected:</strong> {{ amountProgress }}</p>
+
+            <p><strong>Your progress:</strong></p>
+
+            <div class="row progress">
+                <div class='progress-bar bg-success progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ targetProgress|round|int }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ targetProgress|round|int }}%'>
+                    <span class='sr-only'>{{ targetProgress|round|int }}% complete</span>
+                </div>
+                <span class="progress-percentage">{{ targetProgress|round|int }}%</span>
+            </div>
+            <br>
+            <form action="{{ url_for('update_goal_progress') }}" method="post">
+                <button class="btn btn-mantis" type="submit">Reset Progress To 0</button>
+            </form>
+            <p><strong>Status: </strong>{{ status }}</p>
+
+            <form action="" class="row" method="POST">
+                <h3 class="col-12">Add Money to Target</h3>
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">€</span></div>
+                            <input class="form-control currency" name='addProgress' id="addProgress" type="number" value="{{ monthlyAmountNeeded|round }}" min="0" step="0.01" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1 right_align">
+                    <button class="btn btn-mantis" type="submit">Add</button>
+                </div>
+            </form>
+
+            <p><strong>Monthly Amount Needed to Reach Target by Due Date:</strong> {{ monthlyAmountNeeded|round }}</p>
+            <p><strong>Due by:</strong> {{ due }}</p>
+            <p><strong>Days Left: </strong>{{ daysLeft }}</p>
+            <p><strong>Goal started at: </strong>{{ startedDate }}</p>
+            <form action="{{ url_for('update_goal_date') }}" method="post">
+                <button class="btn btn-mantis" type="submit">Reset Target Start Date</button>
+            </form>
+            <p>*To change and edit your target go to the 'Setting' tab</p>
+        </div>
+    </div>
+
 {% endblock %}
