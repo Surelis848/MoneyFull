@@ -122,6 +122,8 @@ def get_tracker_page():
             categories = mongo.db.Categories_50_30_20.find()
         elif budgetingSystem == '70/20/10':
             categories = mongo.db.Categories_70_20_10.find()
+        elif budgetingSystem == 'custom':
+            categories = mongo.db.user.categories.find()
         tracker = mongo.db.Tracker
         spending = tracker.find({"email": email}).sort('date', -1)
         date = request.form.get('date')
@@ -157,6 +159,8 @@ def edit_purchases():
             categories = mongo.db.Categories_50_30_20.find()
         elif budgetingSystem == '70/20/10':
             categories = mongo.db.Categories_70_20_10.find()
+        elif budgetingSystem == 'custom':
+            categories = mongo.db.user.categories.find()
         categories_list = []
         for c in categories:
             categories_list.append(c['title'])
@@ -210,6 +214,8 @@ def get_budget_page():
             categories = mongo.db.Categories_50_30_20.find()
         elif budgetingSystem == '70/20/10':
             categories = mongo.db.Categories_70_20_10.find()
+        elif budgetingSystem == 'custom':
+            categories = mongo.db.user.categories.find()
         categories_list = []
         for c in categories:
             category = {'title': c['title'], 'percentage': int(c['percentage']), 'catsalary': salary*int(c['percentage'])/100}
@@ -250,6 +256,8 @@ def edit_categories():
             categories = mongo.db.Categories_50_30_20.find()
         elif budgetingSystem == '70/20/10':
             categories = mongo.db.Categories_70_20_10.find()
+        elif budgetingSystem == 'custom':
+            categories = mongo.db.user.categories.find()
         return render_template('budget_edit.html', email=email, user=user, categories=categories)
     else:
         return redirect(url_for("get_login_page"))

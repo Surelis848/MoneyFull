@@ -1,11 +1,11 @@
 {% extends 'base2.html' %} {% set active_page = "Landing" %}
 {% block content %}
 
-{% if message  %}
-    <div class="alert alert-secondary" role="alert">
-        <p>{{ message }}</p>
-    </div>
-{% endif %}
+    {% if message  %}
+        <div class="alert alert-secondary" role="alert">
+            <p>{{ message }}</p>
+        </div>
+    {% endif %}
 
     <div class='background-image'>
         <div class='opaque-overlay'></div>
@@ -17,6 +17,75 @@
                         <h2 class='page-subheading'>Budgeting Made Easy</h2>
                     </section>
                 </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="container">
+        <div class="frame">
+            <br>
+            <div class="center">
+                <a href="{{url_for('get_register_page')}}" class="col-12"><button class="btn btn-mantis">Register Now</button></a>
+            </div>
+            <br>
+            <div class="row">
+                <h2 class="col-12">Tracking your Spending</h2>
+                <br><br>
+                <div class="col-12 col-md-6 justify">Adding your purchases cannot be simpler! Just enter the amount, description and choose a category. You'll be able to view your spending history and edit all your purchases. </div>
+                <div class="col-12 col-md-6">
+                    <img class='image' src="static/images/Tracker.PNG" alt='Tracker'>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <h2 class="col-12">Setting Up a Budgeting System</h2>
+                <br><br>
+
+                <div class="col-12 col-md-6">
+                    <img class='image' src="static/images/Budget.PNG" alt='Budget'>
+                </div>
+
+                <div class="col-12 col-md-6 justify">You will be able to choose one of our experts approved budgeting systems. If you need more - you could also go for a custom budgeting system specifying the categories you want to see and the percentage of your salary you want to give to each. Here you'll also see the progress of how well you're doing in each of the categories.</div>
+            </div>
+            <br>
+            <div class="center">
+                <a href="{{url_for('get_register_page')}}" class="col-12"><button class="btn btn-mantis">Register Now</button></a>
+            </div>
+            <br>
+            <div class="row">
+                <h2 class="col-12">Setting and Reaching Your Targets</h2>
+                <br><br>
+                <div class="col-12 col-md-6 justify">The system will ask for your main targets and goals whether these would be increasing your savings, giving back a loan or saving up for a mortgage. You will choose a date you want to achieve this by and the system will help you track the progress as well as calculating the amount you need to put in each month and helping you keep on track with a 'Status' field.</div>
+
+                <div class="col-12 col-md-6">
+                    <img class='image' src="static/images/Targets.PNG" alt='Targets'>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <h2 class="col-12">Viewing your trends in Interactive Graphs</h2>
+                <br><br>
+
+                <div class="col-12 col-md-6">
+                    <img class='image' src="static/images/Trends.PNG" alt='Trends'>
+                </div>
+
+                <div class="col-12 col-md-6 justify">When you add some purchases - you'll be able to view interactive graphs with your statistics. These will show how much do you usually spend in each category and how often, total amount tracked and how much you spend on different days. You will be able to choose several categories or a time period to inspect it closer.</div>
+            </div>
+            <br>
+            <div class="row">
+                <h2 class="col-12">Get Access to Approved Resources and Our Support Team</h2>
+                <br><br>
+                <div class="col-12 col-md-6 justify">If you need some extra help or advice - we'll have a form to reach out to our support team. For financial help and knowledge we'll always have a list of approved financial articles to better understand budgeting, tracking your spending and why it's important, etc.</div>
+                <div class="col-12 col-md-6">
+                    <img class='image' src="static/images/Help.PNG" alt='Help'>
+                </div>
+            </div>
+            <br>
+            <div class="center">
+                <a href="{{url_for('get_register_page')}}" class="col-12"><button class="btn btn-mantis">Register Now</button></a>
             </div>
         </div>
     </div>

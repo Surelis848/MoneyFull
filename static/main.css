@@ -58,6 +58,14 @@ h3 {
     padding-right: 30px;
 }
 
+.center {
+    text-align: center;
+}
+
+.justify {
+   text-align: justify;
+}
+
 /*-------------Nav and Footer-------------*/
 
 #logo {
@@ -189,6 +197,7 @@ footer {
 .page-heading {
     font-weight: 700;
     font-size: 80px;
+    text-align: center;
 }
 
 .page-subheading {
@@ -199,7 +208,7 @@ footer {
 
 .background-image {
     height: 100vh;
-    background: url(static/images/background.jpg) no-repeat center center fixed;
+    background: url(images/background.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -216,5 +225,17 @@ footer {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
 }
+
+.image {
+    display: block;
+    margin: 0 auto;
+    max-height: 400px;
+    max-width: 100%;
+    position: relative;
+    border-style: solid;
+    border-color: #8D99AE;
+    border-width: thin;
+}
+
