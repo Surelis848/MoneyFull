@@ -7,7 +7,7 @@ if ( window.history.replaceState ) {
   window.history.replaceState( null, null, window.location.href );
 }
 
-// getting today's date as a default when page fully loads
+// getting today's date and month as a default when page fully loads
 
 window.onload = function() {
   $(document).ready(function() {
@@ -37,8 +37,23 @@ function get_current_Month() {
   let currentMonth = month[d.getMonth()];
   document.getElementById("currentMonth").innerHTML = currentMonth;
 
- // document.getElementById("currentMonth").innerHTML = month[new Date().getMonth()];
 };
+
+// hiding and showing the spending from other months than the current one
+
+function unhideOtherSpending() {
+  var hide_unhide_button = document.getElementById("hide_unhide_button");
+  var otherMonths = document.getElementById("otherMonths");
+  if (otherMonths.style.display === "none") {
+      otherMonths.style.display ="block";
+      hide_unhide_button.innerHTML = "Show Less";
+  } else {
+      otherMonths.style.display = "none";
+      hide_unhide_button.innerHTML = "Show Previous Months";
+  }
+};
+
+// setting up and rendering all the graphs in 'Trends' page
 
 queue()
     .defer(d3.json, "/moneyfull/Tracker")

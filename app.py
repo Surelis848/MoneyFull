@@ -1,4 +1,3 @@
-from decimal import Decimal
 from datetime import datetime
 from bson.objectid import ObjectId
 from flask import Flask, render_template, request, url_for, redirect, session
@@ -115,7 +114,10 @@ def get_tracker_page():
     if "email" in session:
         email = session["email"]
         user = mongo.db.Users.find_one({"email": email})
+        current_month = int(datetime.now().strftime('%m'))
         budgetingSystem = user['budgetingSystem']
+        months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                 "November", "December"];
         if budgetingSystem == 'moneyfullSystem':
             categories = mongo.db.Categories_MoneyFull.find()
         elif budgetingSystem == '50/30/20':
@@ -126,6 +128,16 @@ def get_tracker_page():
             categories = mongo.db.user.categories.find()
         tracker = mongo.db.Tracker
         spending = tracker.find({"email": email}).sort('date', -1)
+        spending_list = []
+        for entry in spending:
+            date = entry["date"]
+            datem = datetime.strptime(date, "%Y-%m-%d")
+            day = int(datem.day)
+            month = int(datem.month)
+            year = int(datem.year)
+            spend = {'year': year, 'month': month, 'day': day, 'amount': entry['amount'], 'description': entry['description'],
+                     'category': entry['category']}
+            spending_list.append(spend)
         date = request.form.get('date')
         if date != None:
             add_item = {
@@ -136,7 +148,8 @@ def get_tracker_page():
                 'email': email
             }
             tracker.insert_one(add_item)
-        return render_template('tracker.html', email=email, user=user, categories=categories, spending=spending)
+        return render_template('tracker.html', email=email, user=user, categories=categories, spending=spending_list, current_month=current_month,
+                               months=months)
     else:
         return redirect(url_for("get_login_page"))
 
@@ -291,7 +304,6 @@ def get_targets_page():
         email = session["email"]
         user = mongo.db.Users
         particularUser = user.find_one({"email": email})
-        objectID = particularUser["_id"]
         target = particularUser["target"]
         targetProgress = int(particularUser["targetProgress"])
         startedDate = datetime.strptime(particularUser["enteredDate"], "%Y-%m-%d")
@@ -310,13 +322,6 @@ def get_targets_page():
         amountProgress = int(particularUser["amountNeeded"]) * targetProgress / 100
         amountProgressF = f'{int(amountProgress):,}'
 
-        addProgress = request.form.get('addProgress')
-        if addProgress != None:
-            addProgress = request.form.get('addProgress')
-            newProgress = (amountProgress + float(addProgress)) * 100 / int(particularUser["amountNeeded"])
-
-            user.update_one({'_id': objectID}, {"$set": {'targetProgress': newProgress}})
-
         if int(amountProgress) >= int(particularUser["amountNeeded"]):
             status = "Target Reached"
         elif amountProgress > monthsPassed * monthlyAmountNeeded:
@@ -331,6 +336,26 @@ def get_targets_page():
                                targetProgress=targetProgress, startedDate=startedDateNoTime, status=status, amountProgress=amountProgressF)
     else:
         return redirect(url_for("get_login_page"))
+
+
+@app.route('/update_goal_progress/', methods=["POST"])
+def update_goal_progress():
+    if "email" in session:
+        email = session["email"]
+        user = mongo.db.Users
+        particularUser = user.find_one({"email": email})
+        objectID = particularUser["_id"]
+        targetProgress = int(particularUser["targetProgress"])
+        amountProgress = int(particularUser["amountNeeded"]) * targetProgress / 100
+
+        addProgress = request.form.get('addProgress')
+        newProgress = (amountProgress + float(addProgress)) * 100 / int(particularUser["amountNeeded"])
+
+        user.update_one({'_id': objectID}, {"$set": {'targetProgress': newProgress}})
+
+        return redirect(url_for('get_targets_page'))
+    else:
+        return redirect(url_for('get_login_page'))
 
 
 @app.route('/update_goal_date/', methods=["POST"])
@@ -350,8 +375,8 @@ def update_goal_date():
         return redirect(url_for('get_login_page'))
 
 
-@app.route('/update_goal_progress/', methods=["POST"])
-def update_goal_progress():
+@app.route('/update_goal_progress_zero/', methods=["POST"])
+def update_goal_progress_zero():
     if "email" in session:
         email = session["email"]
         user = mongo.db.Users
@@ -508,7 +533,7 @@ def update_user():
         return redirect(url_for('get_login_page'))
 
 
-@app.route('/help')
+@app.route('/help', methods=["POST", "GET"])
 def get_help_page():
     if "email" in session:
         email = session["email"]

@@ -6,28 +6,40 @@
         <h1 class="col-8">Targets</h1>
 
         <div class="frame">
-            <p><strong>Your current goal:</strong> {{ target }}</p>
-            <p><strong>Amount needed:</strong> {{ amountNeeded }}</p>
-            <p><strong>Amount collected:</strong> {{ amountProgress }}</p>
+            <p>Your current goal:<strong> {{ target }}</strong></p>
+            <p>Total amount needed:<strong> {{ amountNeeded }}</strong></p>
+            <p>Amount collected:<strong> {{ amountProgress }}</strong></p>
+            <p>----------</p>
+            <h3>Your progress:</h3>
 
-            <p><strong>Your progress:</strong></p>
-
-            <div class="row progress">
-                <div class='progress-bar bg-success progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ targetProgress|round|int }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ targetProgress|round|int }}%'>
-                    <span class='sr-only'>{{ targetProgress|round|int }}% complete</span>
+            {% if status == 'Behind' %}
+                <div class="row progress">
+                    <div class='progress-bar bg-warning progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ targetProgress|round|int }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ targetProgress|round|int }}%'>
+                        <span class='sr-only'>{{ targetProgress|round|int }}% complete</span>
+                    </div>
+                    <span class="progress-percentage">{{ targetProgress|round|int }}%</span>
                 </div>
-                <span class="progress-percentage">{{ targetProgress|round|int }}%</span>
-            </div>
+                {% else %}
+                <div class="row progress">
+                    <div class='progress-bar bg-success progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ targetProgress|round|int }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ targetProgress|round|int }}%'>
+                        <span class='sr-only'>{{ targetProgress|round|int }}% complete</span>
+                    </div>
+                    <span class="progress-percentage">{{ targetProgress|round|int }}%</span>
+                </div>
+                {% endif %}
+
             <br>
-            <form action="{{ url_for('update_goal_progress') }}" method="post">
+            <form action="{{ url_for('update_goal_progress_zero') }}" class="right_align padd" method="post">
                 <button class="btn btn-mantis" type="submit">Reset Progress To 0</button>
             </form>
-            <p><strong>Status: </strong>{{ status }}</p>
+            <br>
+            <p>Status: <strong>{{ status }}</strong></p>
+            <p>----------</p>
 
-            <form action="" class="row" method="POST">
+            <form action="{{ url_for('update_goal_progress') }}" class="row" method="POST">
                 <h3 class="col-12">Add Money to Target</h3>
 
-                <div class="col-3">
+                <div class="col-9 col-md-3">
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-prepend"><span class="input-group-text">€</span></div>
@@ -35,19 +47,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-1 right_align">
+                <div class="col-3 col-md-1 right_align">
                     <button class="btn btn-mantis" type="submit">Add</button>
                 </div>
             </form>
 
-            <p><strong>Monthly Amount Needed to Reach Target by Due Date:</strong> {{ monthlyAmountNeeded|round }}</p>
-            <p><strong>Due by:</strong> {{ due }}</p>
-            <p><strong>Days Left: </strong>{{ daysLeft }}</p>
-            <p><strong>Goal started at: </strong>{{ startedDate }}</p>
+            <p>Monthly Amount Needed to Reach Target by Due Date:<strong> {{ monthlyAmountNeeded|round }}</strong></p>
+            <p>----------</p>
+            <p>Due by:<strong> {{ due }}</strong></p>
+            <p>Days Left: <strong>{{ daysLeft }}</strong></p>
+            <p>Goal started at: <strong>{{ startedDate }}</strong></p>
             <form action="{{ url_for('update_goal_date') }}" method="post">
                 <button class="btn btn-mantis" type="submit">Reset Target Start Date</button>
             </form>
-            <p>*To change and edit your target go to the 'Setting' tab</p>
+            <p>*To change and edit your target go to the 'Settings' tab</p>
         </div>
     </div>
 

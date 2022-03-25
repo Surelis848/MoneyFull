@@ -62,8 +62,13 @@ h3 {
     text-align: center;
 }
 
+.center_vertically {
+    margin: auto;
+    padding: 40px;
+}
+
 .justify {
-   text-align: justify;
+    text-align: justify;
 }
 
 /*-------------Nav and Footer-------------*/
