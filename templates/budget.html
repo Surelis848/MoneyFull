@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% set active_page = "Budget" %}
 {% block content %}
 
-     <div class = container>
+    <div class = container>
         <h1>Budget</h1>
         <div class="frame">
             <h2>Current Budgeting System setup</h2>
@@ -36,25 +36,25 @@
                 {% endif %}
                 <br>
                 {% if categoryPercentage <= 100 %}
-                <div class="row progress">
-                    <div class='progress-bar bg-success progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ categoryPercentage|round|int }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ categoryPercentage|round|int }}%'>
-                        <span class='sr-only'>{{ categoryPercentage|round|int }}% complete</span>
+                    <div class="row progress">
+                        <div class='progress-bar bg-success progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ categoryPercentage|round|int }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ categoryPercentage|round|int }}%'>
+                            <span class='sr-only'>{{ categoryPercentage|round|int }}% complete</span>
+                        </div>
+                        <span class='progress-type'>{{ c.title }}</span>
+                        <span class="progress-percentage">{{ categoryPercentage|round|int }}%</span>
                     </div>
-                    <span class='progress-type'>{{ c.title }}</span>
-                    <span class="progress-percentage">{{ categoryPercentage|round|int }}%</span>
-                </div>
                 {% else %}
-                <div class="row progress">
-                    <div class='progress-bar bg-danger progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ categoryPercentage|round|int }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ categoryPercentage|round|int }}%'>
-                        <span class='sr-only'>{{ categoryPercentage|round|int }}% complete</span>
+                    <div class="row progress">
+                        <div class='progress-bar bg-danger progress-bar-striped progress-bar-animated' role='progressbar' aria-valuenow='{{ categoryPercentage|round|int }}' aria-valuemin='0' aria-valuemax='100' style='width: {{ categoryPercentage|round|int }}%'>
+                            <span class='sr-only'>{{ categoryPercentage|round|int }}% complete</span>
+                        </div>
+                        <span class='progress-type'>{{ c.title }}</span>
+                        <span class="progress-percentage">{{ categoryPercentage|round|int }}%</span>
                     </div>
-                    <span class='progress-type'>{{ c.title }}</span>
-                    <span class="progress-percentage">{{ categoryPercentage|round|int }}%</span>
-                </div>
                 {% endif %}
             {% endfor %}
             <br>
         </div>
-     </div>
+    </div>
 
 {% endblock %}

@@ -44,7 +44,7 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul id="navigation" class="navbar-nav nav ml-auto">
             {% for href, id, caption in navigation_bar %}
-                <li {% if id == active_page %} class="active_tab nav-item"{% endif %} class="nav-item">
+                <li {% if id == active_page %} class="active_tab"{% endif %} class="nav-item">
                     <a class="nav-link" href="{{ href|e }}">{{ caption|e }}</a>
                 </li>
             {% endfor %}
@@ -61,7 +61,7 @@
         </p>
         <div class="col-sm-12 col-md-8">
             <p class='social-media'>
-                &#124 Connect and see more of my work on social media...
+                &#124; Connect and see more of my work on social media...
                 <a target='_blank' href='https://www.facebook.com/elena.eigelyte'><i class='fab fa-facebook'></i></a>
                 <a target='_blank' href='https://codepen.io/elena-eigelyte/'><i class='fab fa-codepen'></i></a>
                 <a target='_blank' href='https://www.linkedin.com/in/elenaeig/'><i class='fab fa-linkedin'></i></a>
