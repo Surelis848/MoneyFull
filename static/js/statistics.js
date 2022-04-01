@@ -24,11 +24,11 @@ window.onload = function() {
       console.error(error);
     }
 });
-}
+};
 
 function get_today() {
   document.getElementById("myDate").value = new Date().toISOString().substr(0, 10);
-};
+}
 
 function get_current_Month() {
   const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -37,7 +37,7 @@ function get_current_Month() {
   let currentMonth = month[d.getMonth()];
   document.getElementById("currentMonth").innerHTML = currentMonth;
 
-};
+}
 
 // hiding and showing the spending from other months than the current one
 
@@ -51,7 +51,7 @@ function unhideOtherSpending() {
       otherMonths.style.display = "none";
       hide_unhide_button.innerHTML = "Show Previous Months";
   }
-};
+}
 
 // setting up and rendering all the graphs in 'Trends' page
 
@@ -81,7 +81,7 @@ function makeCharts(error, moneyfullData) {
     // var overlay = document.getElementById("overlay");
     // overlay.style.display = "none";
 
-};
+}
 
 /*--------------------Totals--------------------*/
 

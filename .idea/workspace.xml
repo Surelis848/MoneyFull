@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="98194ac8-f58e-4c56-948f-4df2f6b36d00" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/budget.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/statistics.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +132,8 @@
       <workItem from="1646819922870" duration="29641000" />
       <workItem from="1647284997685" duration="60183000" />
       <workItem from="1647798909000" duration="3087000" />
-      <workItem from="1648200615683" duration="23664000" />
+      <workItem from="1648200615683" duration="29657000" />
+      <workItem from="1648829372018" duration="936000" />
     </task>
     <servers />
   </component>
@@ -152,6 +154,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Ordinary_Degree_Project$Ordinary_Degree_Project.coverage" NAME="Ordinary Degree Project Coverage Results" MODIFIED="1643485558768" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/Ordinary_Degree_Project$app.coverage" NAME="app Coverage Results" MODIFIED="1648216592953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Ordinary_Degree_Project$app.coverage" NAME="app Coverage Results" MODIFIED="1648829712201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

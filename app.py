@@ -218,7 +218,7 @@ def get_budget_page():
         email = session["email"]
         user = mongo.db.Users.find_one({"email": email})
         salary = int(user['salary'])
-        salaryf = f'{(salary):,}'
+        salaryf = f'{salary:,}'
         current_month = int(datetime.now().strftime('%m'))
         budgetingSystem = user['budgetingSystem']
         if budgetingSystem == 'moneyfullSystem':
