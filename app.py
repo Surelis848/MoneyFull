@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from bson.objectid import ObjectId
 from flask import Flask, render_template, request, url_for, redirect, session
@@ -555,8 +556,7 @@ def get_error_page():
 # Main function for running the app
 
 if __name__ == "__main__":
-    app.run(port=7000, host='0.0.0.0', debug=True)
-    #app.run(
-            #host=os.environ.get('0.0.0.0'),
-            #port=int(os.environ.get(5000)),
-            #debug=True)
+    app.run(host=os.environ.get('IP'),
+            port=int(os.environ.get('PORT')),
+            debug=True)
+
