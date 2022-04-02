@@ -8,9 +8,8 @@ import json
 from bson import json_util
 
 app = Flask(__name__)
-app.secret_key = "testing" #change
 
-#change - Make safe
+
 app.config["MONGO_DBNAME"] = "moneyfull"
 app.config["MONGO_URI"] = "mongodb+srv://surelis:rootUser@myfirstcluster-1cswe.mongodb.net/moneyfull?retryWrites=true"
 
@@ -556,6 +555,7 @@ def get_error_page():
 # Main function for running the app
 
 if __name__ == "__main__":
+    app.secret_key = "testing",
     app.run(host=os.environ.get('IP'),
             port=int(os.environ.get('PORT')),
             debug=True)
