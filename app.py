@@ -117,7 +117,7 @@ def get_tracker_page():
         current_month = int(datetime.now().strftime('%m'))
         budgetingSystem = user['budgetingSystem']
         months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-                 "November", "December"];
+                 "November", "December"]
         if budgetingSystem == 'moneyfullSystem':
             categories = mongo.db.Categories_MoneyFull.find()
         elif budgetingSystem == '50/30/20':
@@ -138,6 +138,19 @@ def get_tracker_page():
             spend = {'year': year, 'month': month, 'day': day, 'amount': entry['amount'], 'description': entry['description'],
                      'category': entry['category']}
             spending_list.append(spend)
+
+        return render_template('tracker.html', email=email, user=user, categories=categories, spending=spending_list, current_month=current_month,
+                               months=months)
+    else:
+        return redirect(url_for("get_login_page"))
+
+
+@app.route('/add_purchase/', methods=["POST"])
+def add_purchase():
+    if "email" in session:
+        email = session["email"]
+        tracker = mongo.db.Tracker
+
         date = request.form.get('date')
         if date != None:
             add_item = {
@@ -148,10 +161,10 @@ def get_tracker_page():
                 'email': email
             }
             tracker.insert_one(add_item)
-        return render_template('tracker.html', email=email, user=user, categories=categories, spending=spending_list, current_month=current_month,
-                               months=months)
+
+        return redirect(url_for('get_tracker_page'))
     else:
-        return redirect(url_for("get_login_page"))
+        return redirect(url_for('get_login_page'))
 
 
 @app.route('/delete_purchase/<purchase_id>')
@@ -298,6 +311,7 @@ def get_moneyfull_Tracker():
     return json_spending
 
 
+#Connection to the database for interactive graphs
 @app.route('/targets', methods=["POST", "GET"])
 def get_targets_page():
     if "email" in session:
@@ -546,17 +560,12 @@ def get_help_page():
 def get_error_page():
     return render_template('error.html')
 
-#@app.route('/add_test')
-#def add_test():
-#    mongo.db.Categories.insert_one({'title': "Rent"})
-#    return jsonify(message="success")
-
 
 # Main function for running the app
 
 if __name__ == "__main__":
     app.secret_key = "testing",
     app.run(host=os.environ.get('IP'),
-            port=int(os.environ.get('PORT')),
+            port=os.environ.get('PORT'),
             debug=True)
 

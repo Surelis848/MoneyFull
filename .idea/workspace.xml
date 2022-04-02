@@ -4,7 +4,7 @@
     <list default="true" id="98194ac8-f58e-4c56-948f-4df2f6b36d00" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/distutils-precedence.pth" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Lib/site-packages/distutils-precedence.pth" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/tracker.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tracker.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +61,7 @@
       <recent name="C:\Users\elena\PycharmProjects\Ordinary Degree Project" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.app">
+  <component name="RunManager" selected="Python.Ordinary Degree Project">
     <configuration name="Ordinary Degree Project" type="PythonConfigurationType" factoryName="Python">
       <module name="Ordinary Degree Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -132,7 +132,7 @@
       <workItem from="1647284997685" duration="60183000" />
       <workItem from="1647798909000" duration="3087000" />
       <workItem from="1648200615683" duration="29657000" />
-      <workItem from="1648829372018" duration="7920000" />
+      <workItem from="1648829372018" duration="9742000" />
     </task>
     <servers />
   </component>
@@ -152,7 +152,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Ordinary_Degree_Project$Ordinary_Degree_Project.coverage" NAME="Ordinary Degree Project Coverage Results" MODIFIED="1643485558768" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/Ordinary_Degree_Project$app.coverage" NAME="app Coverage Results" MODIFIED="1648916726964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Ordinary_Degree_Project$Ordinary_Degree_Project.coverage" NAME="Ordinary Degree Project Coverage Results" MODIFIED="1648916955374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Ordinary_Degree_Project$app.coverage" NAME="app Coverage Results" MODIFIED="1648916822581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
