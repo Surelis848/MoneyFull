@@ -42,7 +42,11 @@ def get_register_page():
         investments = request.form.get("investments")
         target = request.form.get("target")
         amountNeeded = request.form.get("amountNeeded")
-        due = request.form.get("due")
+        dued = request.form.get("due")
+        if dued == "":
+            due = currentDate
+        else:
+            due = dued
         budgetingSystem = request.form.get("budgetingSystem")
 
         user_found = mongo.db.Users.find_one({"name": user})
@@ -332,7 +336,10 @@ def get_targets_page():
         monthsLeft = (due.year - currentDated.year) * 12 + (due.month - currentDated.month)
         monthsFromBegining = (due.year - startedDate.year) * 12 + (due.month - startedDate.month)
         monthsPassed = monthsFromBegining - monthsLeft
-        monthlyAmountNeeded = int(particularUser["amountNeeded"]) / int(monthsFromBegining)
+        if monthsFromBegining == 0:
+            monthlyAmountNeeded = 0
+        else:
+            monthlyAmountNeeded = int(particularUser["amountNeeded"]) / int(monthsFromBegining)
         amountProgress = int(particularUser["amountNeeded"]) * targetProgress / 100
         amountProgressF = f'{int(amountProgress):,}'
 
