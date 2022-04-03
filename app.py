@@ -135,7 +135,7 @@ def get_tracker_page():
             day = int(datem.day)
             month = int(datem.month)
             year = int(datem.year)
-            spend = {'year': year, 'month': month, 'day': day, 'amount': entry['amount'], 'description': entry['description'],
+            spend = {'id': entry['_id'], 'year': year, 'month': month, 'day': day, 'amount': entry['amount'], 'description': entry['description'],
                      'category': entry['category']}
             spending_list.append(spend)
 

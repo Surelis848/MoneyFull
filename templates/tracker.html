@@ -54,7 +54,7 @@
                     <p class="col-6 col-sm-3 col-md-3 col-lg-4">{{ purchase.description }}</p>
                     <p class="col-4 col-sm-2 col-md-2 col-lg-3">{{ purchase.category }}</p>
                     <div class="col-2 col-sm-2 col-md-2 col-lg-1 right_align padd">
-                        <a href="{{url_for('delete_purchase', purchase_id=purchase._id)}}" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash-alt text-sec"></i></a>
+                        <a href="{{url_for('delete_purchase', purchase_id=purchase.id)}}" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fas fa-trash-alt text-sec"></i></a>
                     </div>
                 </div>
                 {% endif %}
