@@ -78,9 +78,6 @@ function makeCharts(error, moneyfullData) {
 
   dc.renderAll();
 
-    // var overlay = document.getElementById("overlay");
-    // overlay.style.display = "none";
-
 }
 
 /*--------------------Totals--------------------*/
